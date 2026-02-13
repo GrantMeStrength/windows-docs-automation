@@ -1,8 +1,12 @@
 # Windows Documentation Automation System
 
+🚀 **[Try the Live Demo →](https://grantmestrength.github.io/windows-docs-automation/)**
+
 ## Overview
 
 This system automates the creation of Windows developer documentation, enabling feature owners to generate high-quality docs with minimal input.
+
+Experience the complete workflow from idea to pull request in just 8 minutes!
 
 ## Architecture
 
