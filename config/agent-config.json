@@ -1,0 +1,282 @@
+{
+  "agent_name": "WindowsDocsGenerator",
+  "version": "1.0.0",
+  "description": "AI agent for automated Windows developer documentation generation",
+  "capabilities": [
+    "plan_documentation",
+    "generate_conceptual_content",
+    "generate_api_reference",
+    "create_code_samples",
+    "validate_quality",
+    "create_pull_request"
+  ],
+  "context_sources": {
+    "standards": [
+      {
+        "name": "editorial_standards",
+        "path": "windows-authoring-guide/writing-guidance/editorial-standards.md",
+        "schema": "schemas/editorial-standards-schema.json",
+        "priority": "high",
+        "use": "Quality validation and content guidelines"
+      },
+      {
+        "name": "api_doc_standards",
+        "path": "windows-authoring-guide/writing-guidance/api-doc-standards.md",
+        "schema": "schemas/api-doc-standards-schema.json",
+        "priority": "high",
+        "use": "API reference documentation guidelines"
+      }
+    ],
+    "examples": [
+      {
+        "name": "examples_gallery",
+        "path": "windows-authoring-guide/writing-guidance/examples-gallery.md",
+        "priority": "high",
+        "use": "Pattern matching for high-quality examples"
+      }
+    ],
+    "templates": [
+      {
+        "name": "content_planning",
+        "path": "windows-authoring-guide/writing-guidance/content-planning-template.md",
+        "priority": "high",
+        "use": "Planning documentation scope and structure"
+      }
+    ],
+    "process": [
+      {
+        "name": "getting_started",
+        "path": "windows-authoring-guide/writing-guidance/getting-started-checklist.md",
+        "priority": "medium",
+        "use": "Understanding contribution workflow"
+      },
+      {
+        "name": "troubleshooting",
+        "path": "windows-authoring-guide/writing-guidance/troubleshooting.md",
+        "priority": "medium",
+        "use": "Common issues and solutions"
+      },
+      {
+        "name": "repo_locations",
+        "path": "windows-authoring-guide/writing-guidance/repo-locations.md",
+        "priority": "high",
+        "use": "Determining correct repository for content"
+      }
+    ]
+  },
+  "workflow": {
+    "phases": [
+      {
+        "name": "intake",
+        "description": "Gather required information from user",
+        "steps": [
+          {
+            "action": "display_form",
+            "form_schema": "schemas/intake-form-schema.json"
+          },
+          {
+            "action": "validate_input",
+            "rules": "all_required_fields_present"
+          },
+          {
+            "action": "fetch_source_materials",
+            "sources": ["spec_doc_url", "header_file_path"]
+          }
+        ],
+        "outputs": ["user_inputs", "source_materials"],
+        "human_checkpoint": true
+      },
+      {
+        "name": "planning",
+        "description": "Generate documentation plan",
+        "steps": [
+          {
+            "action": "load_template",
+            "template": "content_planning"
+          },
+          {
+            "action": "parse_source_materials",
+            "extract": ["apis", "classes", "methods", "key_concepts"]
+          },
+          {
+            "action": "generate_plan",
+            "using": [
+              "content_planning_template",
+              "source_materials",
+              "user_inputs"
+            ]
+          },
+          {
+            "action": "estimate_scope",
+            "calculate": ["page_count", "code_sample_count", "effort_hours"]
+          }
+        ],
+        "outputs": ["documentation_plan", "scope_estimate"],
+        "human_checkpoint": true,
+        "approval_required": true
+      },
+      {
+        "name": "generation",
+        "description": "Generate documentation content",
+        "steps": [
+          {
+            "action": "determine_repo",
+            "using": "repo_locations",
+            "based_on": "content_type"
+          },
+          {
+            "action": "generate_conceptual_docs",
+            "for_each": "planned_conceptual_page",
+            "using": [
+              "editorial_standards",
+              "examples_gallery"
+            ],
+            "apply": [
+              "metadata_requirements",
+              "voice_and_style_rules",
+              "structure_patterns"
+            ]
+          },
+          {
+            "action": "generate_api_reference",
+            "for_each": "api_member",
+            "using": [
+              "api_doc_standards",
+              "source_materials"
+            ],
+            "apply": [
+              "triple_slash_comment_format",
+              "parameter_documentation_rules",
+              "example_code_requirements"
+            ]
+          },
+          {
+            "action": "generate_code_samples",
+            "for_each": "planned_sample",
+            "languages": "user_specified_languages",
+            "validate": "compilation"
+          }
+        ],
+        "outputs": ["generated_files"],
+        "human_checkpoint": false
+      },
+      {
+        "name": "validation",
+        "description": "Validate generated content against standards",
+        "steps": [
+          {
+            "action": "validate_editorial_standards",
+            "schema": "editorial_standards_schema",
+            "generate_report": true
+          },
+          {
+            "action": "validate_api_docs",
+            "schema": "api_doc_standards_schema",
+            "generate_report": true
+          },
+          {
+            "action": "check_code_compilation",
+            "compile": "all_code_samples",
+            "report_errors": true
+          },
+          {
+            "action": "validate_links",
+            "check": ["internal_links", "external_links", "xrefs"]
+          },
+          {
+            "action": "run_documentor",
+            "if_available": true
+          }
+        ],
+        "outputs": ["validation_report", "quality_score"],
+        "human_checkpoint": true,
+        "pass_threshold": 80
+      },
+      {
+        "name": "publication",
+        "description": "Create pull request with generated content",
+        "steps": [
+          {
+            "action": "clone_repository",
+            "repo": "determined_in_generation_phase"
+          },
+          {
+            "action": "create_branch",
+            "naming": "{owner_github_username}-{feature_name_slugified}"
+          },
+          {
+            "action": "commit_files",
+            "message_template": "Add documentation for {feature_name}\n\nAuto-generated by WindowsDocsGenerator\nSource: {spec_doc_url}\nOwner: {owner_name} ({owner_email})"
+          },
+          {
+            "action": "create_pull_request",
+            "title": "📝 {content_type}: {feature_name}",
+            "body_template": "templates/pr-description.md",
+            "include": [
+              "validation_report",
+              "scope_estimate",
+              "owner_info",
+              "source_materials_links"
+            ],
+            "reviewers": ["@windows-docs"],
+            "labels": ["auto-generated", "needs-review"]
+          }
+        ],
+        "outputs": ["pull_request_url"],
+        "human_checkpoint": false
+      }
+    ]
+  },
+  "quality_gates": {
+    "planning_phase": {
+      "required_approvals": 1,
+      "approval_roles": ["feature_owner"]
+    },
+    "validation_phase": {
+      "minimum_score": 80,
+      "required_checks": [
+        "metadata_complete",
+        "code_samples_compile",
+        "no_broken_links"
+      ]
+    }
+  },
+  "error_handling": {
+    "compilation_failures": {
+      "action": "flag_for_manual_review",
+      "include_in_pr": true,
+      "severity": "high"
+    },
+    "missing_source_materials": {
+      "action": "request_from_user",
+      "retry_count": 3
+    },
+    "validation_score_below_threshold": {
+      "action": "present_issues_to_user",
+      "allow_override": true,
+      "severity": "medium"
+    }
+  },
+  "output_format": {
+    "file_structure": {
+      "conceptual": {
+        "path_pattern": "hub/{product}/{feature}/*.md",
+        "naming": "kebab-case"
+      },
+      "api_reference": {
+        "path_pattern": "api/{namespace}/*.md",
+        "naming": "api-name-lowercase"
+      },
+      "samples": {
+        "path_pattern": "samples/{feature}/*.{lang}",
+        "languages": ["cs", "cpp", "js"]
+      }
+    },
+    "metadata_defaults": {
+      "author": "{owner_github_username}",
+      "ms.author": "{owner_email_alias}",
+      "ms.date": "{current_date_mmddyyyy}",
+      "ms.topic": "{determined_from_content_type}"
+    }
+  }
+}

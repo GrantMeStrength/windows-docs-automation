@@ -1,0 +1,294 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Windows API Documentation Standards",
+  "description": "Machine-readable validation rules for Windows API reference documentation",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "api_member": {
+      "type": "object",
+      "required": ["type", "name", "summary"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["class", "method", "property", "event", "enum", "delegate", "struct", "interface"],
+          "description": "Type of API member"
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of the API member"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "Namespace containing the API"
+        },
+        "summary": {
+          "type": "object",
+          "required": ["text", "starts_with_verb"],
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 500,
+              "description": "Summary description of the API"
+            },
+            "starts_with_verb": {
+              "type": "boolean",
+              "description": "Summary starts with action verb"
+            },
+            "length_appropriate": {
+              "type": "boolean",
+              "description": "Summary is 1-2 sentences"
+            },
+            "avoids_just_restating_name": {
+              "type": "boolean",
+              "description": "Summary is not just restating the API name"
+            }
+          }
+        }
+      }
+    },
+    "method_documentation": {
+      "type": "object",
+      "properties": {
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "description"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Parameter name"
+              },
+              "type": {
+                "type": "string",
+                "description": "Parameter type"
+              },
+              "description": {
+                "type": "string",
+                "minLength": 10,
+                "description": "What the parameter does"
+              },
+              "valid_values_documented": {
+                "type": "boolean",
+                "description": "Valid value ranges or options documented"
+              },
+              "units_specified": {
+                "type": "boolean",
+                "description": "Units specified (pixels, milliseconds, etc.)"
+              },
+              "null_behavior_documented": {
+                "type": "boolean",
+                "description": "Behavior when null documented (if applicable)"
+              }
+            }
+          }
+        },
+        "return_value": {
+          "type": "object",
+          "properties": {
+            "documented": {
+              "type": "boolean",
+              "description": "Return value is documented"
+            },
+            "type_described": {
+              "type": "boolean",
+              "description": "Return type and meaning described"
+            },
+            "null_conditions_documented": {
+              "type": "boolean",
+              "description": "When null/error is returned is documented"
+            },
+            "possible_values_listed": {
+              "type": "boolean",
+              "description": "Possible return values listed"
+            }
+          }
+        },
+        "exceptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "condition"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Exception type (e.g., ArgumentNullException)"
+              },
+              "condition": {
+                "type": "string",
+                "description": "When this exception is thrown"
+              },
+              "is_expected_usage": {
+                "type": "boolean",
+                "description": "Exception expected in normal usage vs. abuse"
+              }
+            }
+          }
+        }
+      }
+    },
+    "property_documentation": {
+      "type": "object",
+      "properties": {
+        "get_set_documented": {
+          "type": "boolean",
+          "description": "Get/set behavior is documented"
+        },
+        "value_description": {
+          "type": "string",
+          "description": "Description of property value"
+        },
+        "default_value_documented": {
+          "type": "boolean",
+          "description": "Default value is documented"
+        },
+        "valid_range_documented": {
+          "type": "boolean",
+          "description": "Valid value range documented"
+        },
+        "side_effects_documented": {
+          "type": "boolean",
+          "description": "Side effects of setting property documented"
+        }
+      }
+    },
+    "event_documentation": {
+      "type": "object",
+      "properties": {
+        "when_fired_documented": {
+          "type": "boolean",
+          "description": "When event fires is documented"
+        },
+        "event_args_documented": {
+          "type": "boolean",
+          "description": "Event arguments are documented"
+        },
+        "thread_documented": {
+          "type": "boolean",
+          "description": "Thread event fires on documented (if relevant)"
+        },
+        "cancellable_documented": {
+          "type": "boolean",
+          "description": "Cancellation support documented (if applicable)"
+        }
+      }
+    },
+    "code_examples": {
+      "type": "object",
+      "properties": {
+        "has_example": {
+          "type": "boolean",
+          "description": "At least one code example provided"
+        },
+        "example_compiles": {
+          "type": "boolean",
+          "description": "Example code compiles"
+        },
+        "example_shows_usage": {
+          "type": "boolean",
+          "description": "Example demonstrates typical usage"
+        },
+        "example_has_comments": {
+          "type": "boolean",
+          "description": "Example has explanatory comments"
+        },
+        "example_includes_error_handling": {
+          "type": "boolean",
+          "description": "Example shows error handling"
+        }
+      }
+    },
+    "remarks": {
+      "type": "object",
+      "properties": {
+        "has_remarks": {
+          "type": "boolean",
+          "description": "Remarks section present (if needed)"
+        },
+        "usage_guidance_provided": {
+          "type": "boolean",
+          "description": "Usage guidelines provided"
+        },
+        "performance_notes": {
+          "type": "boolean",
+          "description": "Performance considerations documented"
+        },
+        "thread_safety": {
+          "type": "boolean",
+          "description": "Thread safety documented"
+        },
+        "platform_specific_behavior": {
+          "type": "boolean",
+          "description": "Platform differences documented"
+        },
+        "version_info": {
+          "type": "boolean",
+          "description": "Version introduced documented"
+        }
+      }
+    },
+    "cross_references": {
+      "type": "object",
+      "properties": {
+        "related_apis_linked": {
+          "type": "boolean",
+          "description": "Related APIs cross-referenced"
+        },
+        "see_also_present": {
+          "type": "boolean",
+          "description": "See Also section with related content"
+        },
+        "conceptual_docs_linked": {
+          "type": "boolean",
+          "description": "Links to conceptual documentation"
+        }
+      }
+    },
+    "validation_rules": {
+      "type": "object",
+      "description": "Specific validation rules by API type",
+      "properties": {
+        "class": {
+          "required": ["summary", "remarks", "example"],
+          "description": "Classes must have summary, remarks, and example"
+        },
+        "method": {
+          "required": ["summary", "parameters", "returns", "example"],
+          "description": "Methods must document all parameters and return value"
+        },
+        "property": {
+          "required": ["summary", "value"],
+          "description": "Properties must have summary and value description"
+        },
+        "event": {
+          "required": ["summary", "remarks"],
+          "description": "Events must document when they fire"
+        }
+      }
+    },
+    "quality_score": {
+      "type": "object",
+      "properties": {
+        "completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentage of required elements present"
+        },
+        "clarity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Quality of descriptions and examples"
+        },
+        "overall": {
+          "type": "string",
+          "enum": ["excellent", "good", "acceptable", "needs_work"],
+          "description": "Overall quality assessment"
+        }
+      }
+    }
+  }
+}

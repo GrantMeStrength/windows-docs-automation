@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Windows Documentation Generation Intake Form",
+  "description": "Defines the minimal user inputs required to generate Windows documentation",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["feature_name", "content_type", "target_audience", "release_info"],
+  "properties": {
+    "feature_name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 100,
+      "description": "Name of the feature being documented",
+      "examples": ["Window Management API", "PowerToys Color Picker", "WinUI TreeView Control"]
+    },
+    "content_type": {
+      "type": "string",
+      "enum": [
+        "new_feature",
+        "api_update",
+        "tutorial",
+        "migration_guide",
+        "troubleshooting",
+        "conceptual_overview"
+      ],
+      "description": "Type of documentation to create",
+      "help_text": {
+        "new_feature": "Complete documentation for a new feature including overview, how-to, and API reference",
+        "api_update": "Updates to existing API reference documentation",
+        "tutorial": "Step-by-step tutorial for accomplishing a task",
+        "migration_guide": "Guide for migrating from old to new API/approach",
+        "troubleshooting": "Common issues and solutions",
+        "conceptual_overview": "High-level overview of a concept or technology"
+      }
+    },
+    "target_audience": {
+      "type": "string",
+      "enum": ["beginner", "intermediate", "advanced"],
+      "description": "Primary audience skill level",
+      "help_text": {
+        "beginner": "New to Windows development, needs basic concepts explained",
+        "intermediate": "Familiar with Windows development, needs practical guidance",
+        "advanced": "Expert developer, needs technical details and edge cases"
+      }
+    },
+    "release_info": {
+      "type": "object",
+      "required": ["version"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Release version",
+          "examples": ["Windows App SDK 2.0", "Windows 11 24H2", "PowerToys 0.90"]
+        },
+        "release_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Expected release date (YYYY-MM-DD)"
+        },
+        "preview_available": {
+          "type": "boolean",
+          "default": false,
+          "description": "Is this available in preview/beta?"
+        }
+      }
+    },
+    "source_materials": {
+      "type": "object",
+      "description": "Source materials for documentation generation",
+      "properties": {
+        "spec_doc_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to feature specification document",
+          "examples": ["https://github.com/microsoft/WindowsAppSDK/blob/main/specs/feature-spec.md"]
+        },
+        "header_file_path": {
+          "type": "string",
+          "description": "Path to API header file or definition",
+          "examples": ["microsoft.ui.windowing.appwindow.h", "src/PowerToys/ColorPicker/ColorPicker.cs"]
+        },
+        "existing_code_samples": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "URLs to existing code samples or GitHub repos"
+        },
+        "design_docs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "Links to design documents or technical specs"
+        }
+      },
+      "oneOf": [
+        {"required": ["spec_doc_url"]},
+        {"required": ["header_file_path"]}
+      ]
+    },
+    "related_content": {
+      "type": "object",
+      "description": "Optional: Related existing documentation for context and cross-linking",
+      "properties": {
+        "related_topics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "URLs to related documentation pages",
+          "examples": ["https://learn.microsoft.com/windows/apps/windows-app-sdk/windowing/windowing-overview"]
+        },
+        "supersedes": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to old documentation this replaces (for migration guides)"
+        },
+        "part_of_series": {
+          "type": "string",
+          "description": "Name of tutorial series this belongs to"
+        }
+      }
+    },
+    "custom_requirements": {
+      "type": "object",
+      "description": "Optional: Special requirements or constraints",
+      "properties": {
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["csharp", "cpp", "javascript", "python"]
+          },
+          "default": ["csharp"],
+          "description": "Programming languages to include in examples"
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["windows11", "windows10", "cross-platform"]
+          },
+          "description": "Target platforms"
+        },
+        "include_video": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should a video tutorial be created?"
+        },
+        "include_sample_app": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should a complete sample app be created?"
+        },
+        "accessibility_focus": {
+          "type": "boolean",
+          "default": false,
+          "description": "Special focus on accessibility features?"
+        }
+      }
+    },
+    "owner_info": {
+      "type": "object",
+      "required": ["name", "email", "github_username"],
+      "description": "Feature owner contact information",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Microsoft email address"
+        },
+        "github_username": {
+          "type": "string",
+          "description": "GitHub username for PR author attribution"
+        },
+        "team": {
+          "type": "string",
+          "description": "Team name (e.g., 'Windows App SDK', 'PowerToys')"
+        }
+      }
+    }
+  },
+  "form_layout": {
+    "title": "Generate Windows Documentation",
+    "sections": [
+      {
+        "title": "1. Basic Information",
+        "fields": ["feature_name", "content_type", "target_audience", "release_info"]
+      },
+      {
+        "title": "2. Source Materials",
+        "description": "Provide at least one source: spec document URL or header file path",
+        "fields": ["source_materials"]
+      },
+      {
+        "title": "3. Related Content (Optional)",
+        "fields": ["related_content"]
+      },
+      {
+        "title": "4. Custom Requirements (Optional)",
+        "fields": ["custom_requirements"]
+      },
+      {
+        "title": "5. Contact Information",
+        "fields": ["owner_info"]
+      }
+    ]
+  },
+  "validation_messages": {
+    "feature_name": {
+      "required": "Please enter a feature name",
+      "minLength": "Feature name must be at least 3 characters",
+      "maxLength": "Feature name must be less than 100 characters"
+    },
+    "source_materials": {
+      "oneOf": "Please provide either a spec document URL or header file path"
+    }
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Windows Documentation Editorial Standards",
+  "description": "Machine-readable validation rules for Windows developer documentation quality",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["title", "description", "author", "ms.author", "ms.topic", "ms.date"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 65,
+          "description": "Page title for browser tab and search results"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 115,
+          "maxLength": 145,
+          "description": "Meta description for search engine snippets"
+        },
+        "author": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9-]+$",
+          "description": "GitHub username"
+        },
+        "ms.author": {
+          "type": "string",
+          "pattern": "^[a-z]+$",
+          "description": "Microsoft alias (lowercase)"
+        },
+        "ms.topic": {
+          "type": "string",
+          "enum": ["article", "reference", "tutorial", "overview", "quickstart", "concept", "how-to"],
+          "description": "Content type"
+        },
+        "ms.date": {
+          "type": "string",
+          "pattern": "^\\d{2}/\\d{2}/\\d{4}$",
+          "description": "Last updated date in MM/DD/YYYY format"
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "technical_accuracy": {
+          "type": "object",
+          "properties": {
+            "api_names_verified": {
+              "type": "boolean",
+              "description": "All API names exist in current SDK"
+            },
+            "code_samples_compile": {
+              "type": "boolean",
+              "description": "All code samples compile without errors"
+            },
+            "version_requirements_correct": {
+              "type": "boolean",
+              "description": "Version requirements are accurate"
+            },
+            "platform_compatibility_verified": {
+              "type": "boolean",
+              "description": "Platform compatibility is verified"
+            }
+          },
+          "required": ["api_names_verified", "code_samples_compile"]
+        },
+        "clarity": {
+          "type": "object",
+          "properties": {
+            "one_main_idea": {
+              "type": "boolean",
+              "description": "Article focuses on one main concept"
+            },
+            "scannable_structure": {
+              "type": "boolean",
+              "description": "Uses headings, lists, and visual hierarchy"
+            },
+            "paragraphs_short": {
+              "type": "boolean",
+              "description": "Paragraphs are 3-4 sentences max"
+            },
+            "jargon_explained": {
+              "type": "boolean",
+              "description": "Technical terms are defined on first use"
+            }
+          }
+        },
+        "completeness": {
+          "type": "object",
+          "properties": {
+            "prerequisites_listed": {
+              "type": "boolean",
+              "description": "Required prerequisites are listed"
+            },
+            "step_by_step_complete": {
+              "type": "boolean",
+              "description": "Tutorial steps are complete and ordered"
+            },
+            "error_handling_covered": {
+              "type": "boolean",
+              "description": "Common errors and solutions included"
+            },
+            "next_steps_provided": {
+              "type": "boolean",
+              "description": "Links to related content provided"
+            }
+          }
+        },
+        "code_quality": {
+          "type": "object",
+          "properties": {
+            "language_specified": {
+              "type": "boolean",
+              "description": "Code blocks have language tags"
+            },
+            "samples_commented": {
+              "type": "boolean",
+              "description": "Code includes explanatory comments"
+            },
+            "samples_minimal": {
+              "type": "boolean",
+              "description": "Examples are minimal but complete"
+            },
+            "error_handling_shown": {
+              "type": "boolean",
+              "description": "Code shows proper error handling"
+            }
+          }
+        },
+        "voice_and_style": {
+          "type": "object",
+          "properties": {
+            "second_person": {
+              "type": "boolean",
+              "description": "Uses 'you' for instructions"
+            },
+            "active_voice": {
+              "type": "boolean",
+              "description": "Active voice preferred over passive"
+            },
+            "present_tense": {
+              "type": "boolean",
+              "description": "Uses present tense"
+            },
+            "neutral_tone": {
+              "type": "boolean",
+              "description": "Avoids marketing language"
+            },
+            "inclusive_language": {
+              "type": "boolean",
+              "description": "Uses inclusive, non-discriminatory terms"
+            }
+          }
+        },
+        "structure": {
+          "type": "object",
+          "properties": {
+            "has_introduction": {
+              "type": "boolean",
+              "description": "Clear introduction paragraph present"
+            },
+            "headings_hierarchical": {
+              "type": "boolean",
+              "description": "Headings follow proper hierarchy (H2, H3, etc.)"
+            },
+            "headings_descriptive": {
+              "type": "boolean",
+              "description": "Headings are clear and descriptive"
+            },
+            "visual_elements_appropriate": {
+              "type": "boolean",
+              "description": "Uses screenshots, diagrams where helpful"
+            }
+          }
+        },
+        "links": {
+          "type": "object",
+          "properties": {
+            "all_links_work": {
+              "type": "boolean",
+              "description": "No broken links (404s)"
+            },
+            "links_descriptive": {
+              "type": "boolean",
+              "description": "Link text describes destination"
+            },
+            "internal_links_relative": {
+              "type": "boolean",
+              "description": "Internal links use relative paths"
+            },
+            "xrefs_correct": {
+              "type": "boolean",
+              "description": "API cross-references use correct UIDs"
+            }
+          }
+        },
+        "accessibility": {
+          "type": "object",
+          "properties": {
+            "images_have_alt_text": {
+              "type": "boolean",
+              "description": "All images have descriptive alt text"
+            },
+            "tables_have_headers": {
+              "type": "boolean",
+              "description": "Tables have proper header rows"
+            },
+            "color_not_only_indicator": {
+              "type": "boolean",
+              "description": "Color is not the only way to convey information"
+            }
+          }
+        }
+      }
+    },
+    "validation_score": {
+      "type": "object",
+      "properties": {
+        "total_checks": {
+          "type": "integer",
+          "description": "Total number of validation checks"
+        },
+        "passed_checks": {
+          "type": "integer",
+          "description": "Number of checks that passed"
+        },
+        "percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentage of checks passed"
+        },
+        "quality_level": {
+          "type": "string",
+          "enum": ["excellent", "good", "needs_improvement", "poor"],
+          "description": "Overall quality assessment"
+        }
+      }
+    }
+  }
+}
