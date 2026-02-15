@@ -4,14 +4,23 @@ This guide shows you how to use GitHub Copilot / Agency to generate comprehensiv
 
 ## 🎯 Overview
 
-Instead of using a web app, you can use GitHub Copilot directly in your editor or CLI to:
-1. Gather documentation requirements through conversation
-2. Generate complete documentation following Windows standards
-3. Validate against quality schemas
-4. Create pull requests automatically
+This workflow helps feature teams and technical writers collaborate on Windows documentation. Copilot generates structured first drafts, handles repetitive tasks, and validates against standards - freeing writers to focus on what they do best: refining content, ensuring accuracy, and adding polish.
 
-**Time:** ~8 minutes from idea to PR  
-**Cost:** Free (uses your Copilot subscription)  
+**Copilot handles:**
+- Initial structure and scaffolding
+- Basic API documentation from header files
+- Code sample generation
+- Standards compliance validation
+- Formatting and metadata
+
+**Writers focus on:**
+- Reviewing and refining generated content
+- Adding context and real-world scenarios
+- Ensuring technical accuracy
+- Improving clarity and flow
+- Advanced examples and edge cases
+- Final editorial quality
+
 **Integration:** Works directly in VS Code, CLI, or any Copilot interface
 
 ---
@@ -122,6 +131,53 @@ Copilot will:
    - Description
    - Validation report
    - Preview links
+
+**At this point, technical writers take over to:**
+- Review the generated content for accuracy
+- Refine explanations and add context
+- Enhance examples with real-world scenarios
+- Improve clarity and flow
+- Add edge cases and advanced topics
+- Final editorial polish
+
+---
+
+## 👥 Collaboration with Writers
+
+### Recommended Workflow
+
+**1. Feature Team Uses Copilot**
+- Generates initial draft from spec/header files
+- Creates structured documentation set
+- Runs validation to catch basic issues
+- Creates PR for writer review
+
+**2. Writer Reviews and Refines**
+- Checks technical accuracy
+- Improves explanations and clarity
+- Adds advanced scenarios
+- Enhances code examples
+- Addresses edge cases
+- Polishes style and voice
+
+**3. Iterative Improvement**
+- Writer can ask Copilot to regenerate specific sections
+- Can request additional examples or scenarios
+- Can validate changes against schemas
+- Maintains consistent structure while improving content
+
+### What This Enables
+
+**For Feature Teams:**
+- Provide writers with structured first drafts instead of specs
+- Reduce back-and-forth on basic structure
+- Get documentation started earlier in the development cycle
+
+**For Writers:**
+- Receive well-organized content to refine, not blank pages
+- Focus time on quality, accuracy, and advanced content
+- Spend less time on formatting and structure
+- More time for editorial excellence
 
 ---
 

@@ -19,7 +19,7 @@ windows-docs-automation repo. Start by asking me for requirements.
 4. Release version
 5. Source (URL or file path)
 
-**Result:** Complete validated docs in ~8 minutes! 🎉
+**Result:** Complete validated documentation set
 
 ---
 
@@ -132,28 +132,13 @@ Regenerate using the template from examples-gallery.md
 
 ---
 
-## 📊 Time Savings
-
-| Task | Manual | With Copilot | Savings |
-|------|--------|--------------|---------|
-| New feature docs | 8 hours | 8 minutes | 7h 52m |
-| API reference | 4 hours | 5 minutes | 3h 55m |
-| Tutorial | 2 hours | 3 minutes | 1h 57m |
-| Code samples | 1 hour | 1 minute | 59 minutes |
-
-**Average:** 99% time reduction
-
----
-
 ## 🎓 Learning Path
 
-1. **Read:** [COPILOT_WORKFLOW.md](COPILOT_WORKFLOW.md) (5 min)
-2. **Try:** Copy a prompt from [PROMPTS.md](PROMPTS.md) (1 min)
-3. **See:** Example in [EXAMPLE_SESSION.md](EXAMPLE_SESSION.md) (3 min)
-4. **Generate:** Your first docs (8 min)
-5. **Master:** Custom prompts and workflows (ongoing)
-
-**Time to productivity:** < 10 minutes
+1. **Read:** [COPILOT_WORKFLOW.md](COPILOT_WORKFLOW.md)
+2. **Try:** Copy a prompt from [PROMPTS.md](PROMPTS.md)
+3. **See:** Example in [EXAMPLE_SESSION.md](EXAMPLE_SESSION.md)
+4. **Generate:** Your first documentation set
+5. **Master:** Custom prompts and workflows
 
 ---
 

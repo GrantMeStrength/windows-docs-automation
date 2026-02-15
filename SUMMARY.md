@@ -2,7 +2,7 @@
 
 ## What We Built
 
-A **Copilot-native documentation workflow** that enables Windows developers to generate comprehensive, validated documentation in ~8 minutes using GitHub Copilot.
+A **Copilot-native documentation workflow** that helps feature teams and technical writers collaborate on Windows documentation. Copilot generates structured first drafts and handles validation, allowing writers to focus on refinement and quality.
 
 ### Instead of building a web app, we created:
 
@@ -253,22 +253,23 @@ Not a prototype - fully documented and ready to use today
 ## Impact
 
 ### For Feature Teams
-- Document new features in 8 minutes instead of 8 hours
-- No need to learn documentation standards (automated)
-- Confidence that docs meet quality bar (validated)
-- Faster time to publish
+- Quickly create structured documentation from specs
+- Generate initial drafts ready for writer review
+- Ensure compliance with documentation standards
+- Get feedback on structure and completeness early
 
-### For Docs Team
-- Consistent quality across all docs
-- Less editorial review needed (90%+ quality)
-- More time for complex scenarios
-- Standards enforcement automated
+### For Technical Writers
+- Receive well-structured first drafts to refine
+- Focus on content quality, not formatting
+- Spend time on advanced scenarios and edge cases
+- Automated validation catches common issues
+- More time for editorial improvement and clarity
 
-### For Developers
-- Better docs, faster
-- Code samples that compile
-- Clear, validated content
-- Comprehensive coverage
+### For Documentation Process
+- Consistent structure across all documentation
+- Standards compliance validated automatically
+- Faster initial drafts enable faster publishing
+- Writers focus on higher-value tasks
 
 ---
 

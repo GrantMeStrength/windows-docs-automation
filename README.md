@@ -14,11 +14,22 @@ Use GitHub Copilot directly in VS Code or CLI to generate documentation. No web 
 
 ## Overview
 
-This system automates the creation of Windows developer documentation, enabling feature owners to generate high-quality docs with minimal input.
+This system helps feature teams and technical writers create comprehensive Windows developer documentation. It automates the initial draft, structure, and validation, allowing writers to focus on refining content, adding advanced scenarios, and ensuring quality.
 
-**Time:** ~8 minutes from idea to pull request  
-**Cost:** Free with GitHub Copilot  
-**Integration:** Works directly in your editor
+**What it does:**
+- Generates structured first drafts from specs or header files
+- Validates against Windows documentation standards
+- Creates complete documentation sets (overview, API reference, tutorials, samples)
+- Handles repetitive formatting and structural work
+
+**What writers still do:**
+- Review and refine generated content
+- Add nuanced explanations and edge cases
+- Ensure technical accuracy and completeness
+- Enhance examples with real-world scenarios
+- Final editorial polish and style improvements
+
+**Integration:** Works directly in your editor via GitHub Copilot
 
 ## Architecture
 
