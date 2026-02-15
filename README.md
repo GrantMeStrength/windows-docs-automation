@@ -5,7 +5,7 @@
 ### ⭐ **Recommended: Copilot Workflow** (Free with your Copilot license)
 Use GitHub Copilot directly in VS Code or CLI to generate documentation. No web app needed!
 
-👉 **[Start with Copilot →](COPILOT_WORKFLOW.md)** | **[Quick Start Prompts →](PROMPTS.md)** | **[See Example →](EXAMPLE_SESSION.md)**
+👉 **[Quick Reference →](QUICK_REFERENCE.md)** | **[Full Guide →](COPILOT_WORKFLOW.md)** | **[Copy Prompts →](PROMPTS.md)** | **[See Example →](EXAMPLE_SESSION.md)**
 
 ### 🌐 **Alternative: Web Demo**
 🚀 **[Try the Live Demo →](https://grantmestrength.github.io/windows-docs-automation/)**
