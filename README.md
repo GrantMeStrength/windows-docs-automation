@@ -1,12 +1,24 @@
 # Windows Documentation Automation System
 
+## Two Ways to Use This System
+
+### ⭐ **Recommended: Copilot Workflow** (Free with your Copilot license)
+Use GitHub Copilot directly in VS Code or CLI to generate documentation. No web app needed!
+
+👉 **[Start with Copilot →](COPILOT_WORKFLOW.md)** | **[Quick Start Prompts →](PROMPTS.md)**
+
+### 🌐 **Alternative: Web Demo**
 🚀 **[Try the Live Demo →](https://grantmestrength.github.io/windows-docs-automation/)**
+
+---
 
 ## Overview
 
 This system automates the creation of Windows developer documentation, enabling feature owners to generate high-quality docs with minimal input.
 
-Experience the complete workflow from idea to pull request in just 8 minutes!
+**Time:** ~8 minutes from idea to pull request  
+**Cost:** Free with GitHub Copilot  
+**Integration:** Works directly in your editor
 
 ## Architecture
 
@@ -40,22 +52,79 @@ Experience the complete workflow from idea to pull request in just 8 minutes!
 
 ```
 windows-docs-automation/
-├── schemas/                          # Machine-readable standards
+├── .github/
+│   └── copilot-instructions.md         # Copilot agent definition
+├── schemas/                             # Machine-readable standards
 │   ├── editorial-standards-schema.json
 │   ├── api-doc-standards-schema.json
 │   └── intake-form-schema.json
-├── config/                           # Agent configuration
+├── config/                              # Agent configuration
 │   └── agent-config.json
-├── templates/                        # Document templates
-│   ├── pr-description.md
-│   ├── conceptual-doc-template.md
-│   └── api-reference-template.md
-├── docs/                            # System documentation
-│   ├── user-guide.md
-│   ├── api-reference.md
-│   └── deployment.md
+├── templates/                           # Document templates
+│   └── pr-description.md
+├── docs/                                # System documentation
+│   ├── system-architecture.md
+│   └── implementation-summary.md
+├── webapp/                              # Web demo (optional)
+│   └── index.html
+├── COPILOT_WORKFLOW.md                  # ⭐ Copilot usage guide
+├── PROMPTS.md                           # Ready-to-use prompts
 └── README.md
 ```
+
+## Quick Start with Copilot
+
+### 1. Copy a prompt from [PROMPTS.md](PROMPTS.md)
+
+```
+I need to generate Windows developer documentation. Please act as the Windows Documentation Generator agent and follow this workflow:
+
+1. Ask me for the 5 required pieces of information
+2. Create a documentation plan
+3. Generate all necessary files
+4. Validate against quality schemas
+5. Create a pull request
+
+Use the standards from: https://github.com/GrantMeStrength/windows-docs-automation
+```
+
+### 2. Paste into Copilot (VS Code or CLI)
+
+In VS Code: Open Copilot Chat (Ctrl+Shift+I / Cmd+Shift+I)  
+In CLI: `gh copilot suggest "..."`
+
+### 3. Answer Copilot's Questions
+
+It will ask for: Feature name, content type, audience, version, and source URL
+
+### 4. Review & Approve
+
+Copilot shows you the plan → you approve → it generates everything
+
+### 5. Done!
+
+PR created with validated, high-quality documentation in ~8 minutes
+
+**[Full Workflow Guide →](COPILOT_WORKFLOW.md)**
+
+---
+
+## Comparison: Copilot vs Web App
+
+| Feature | Copilot Workflow | Web App Demo |
+|---------|------------------|--------------|
+| **Cost** | Free (your Copilot license) | Would need Azure OpenAI ($5/doc) |
+| **Access** | VS Code, CLI, anywhere | Browser only |
+| **Integration** | Native to your workflow | Separate tool |
+| **Customization** | Full control via prompts | Limited UI options |
+| **Offline** | Works with local models | Requires internet |
+| **Speed** | ~8 minutes | ~8 minutes |
+| **Quality** | Same schemas & standards | Same schemas & standards |
+| **Ease of use** | Conversational | Form-based |
+
+**Recommendation:** Use Copilot workflow for production. Web app is for demos.
+
+---
 
 ## How It Works
 
