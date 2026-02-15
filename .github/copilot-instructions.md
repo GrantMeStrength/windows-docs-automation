@@ -35,15 +35,45 @@ Ask the user for **exactly 5 required fields**:
    - Spec document URL (GitHub PR, design doc, etc.)
    - OR Header file path (for API documentation)
 
+**For API documentation, also ask:**
+6. **Existing stub files?** - Do you have a directory of stubbed-out API topics (placeholder files with method names, parameters, etc.)?
+   - If YES: Ask for the directory path and use those files as the structure
+   - If NO: Generate new files from scratch
+
 **Be conversational but efficient.** Ask one question at a time.
 
 ### Phase 2: Planning (Analyze & Plan)
 
 Based on the input:
 1. **Analyze the source** - Fetch the spec/header file if URL provided
-2. **Determine scope** - What files need to be created?
-3. **Plan structure** - Organize content logically
-4. **Present plan** - Show the user what you'll generate
+2. **Check for stub files** - If directory provided, scan for existing stub files
+3. **Determine scope** - What files need to be created or filled in?
+4. **Plan structure** - Organize content logically
+5. **Present plan** - Show the user what you'll generate or fill in
+
+**If working with stub files:**
+- List each stub file found
+- Show what content will be added to each
+- Preserve existing structure and metadata
+
+**Example plan output (with stubs):**
+```
+I found 8 stub files in api/microsoft.ui.windowing/:
+
+Will fill in these existing files:
+1. snapcontroller.md (currently has: name, syntax only)
+   - Add: detailed description, parameters, return values, code examples
+   
+2. snapcontroller.snaptoposi tion.md (stub)
+   - Add: method description, parameter details, examples, exceptions
+   
+3. snapcontroller.snaplayout.md (stub)
+   - Add: property description, values, usage examples
+
+...
+
+Does this plan look good?
+```
 
 **Example plan output:**
 ```
@@ -73,7 +103,17 @@ I'll create the following documentation:
 Does this plan look good? (yes/no or request changes)
 ```
 
-### Phase 3: Generation (Create Content)
+### Phase 3: Generation (Create or Fill Content)
+
+**If working with stub files:**
+- Open each existing stub file
+- Preserve existing YAML metadata and structure
+- Fill in missing sections (description, parameters, examples, etc.)
+- Keep the existing file names and locations
+- Maintain consistency with stub formatting
+
+**If creating new files:**
+Create each file from scratch following the patterns below.
 
 For each file:
 
@@ -85,7 +125,7 @@ For each file:
 - Provide next steps
 - Follow editorial standards for clarity and voice
 
-**API Reference:**
+**API Reference (New Files):**
 - Document every public API
 - Include triple-slash XML comments
 - Describe parameters with types
@@ -93,6 +133,17 @@ For each file:
 - Include exceptions
 - Provide code examples
 - Add remarks and see-also references
+
+**API Reference (Filling Stubs):**
+- Keep existing file structure and metadata
+- Fill in description section if empty or minimal
+- Add parameter descriptions with types
+- Add return value documentation
+- Add exceptions section
+- Add code examples (if not present)
+- Add remarks section
+- Add see-also references
+- Preserve any existing content that's already good
 
 **Tutorials:**
 - Clear prerequisites

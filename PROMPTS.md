@@ -50,6 +50,30 @@ Include: Triple-slash comments, parameter descriptions, return values, exception
 Validate for 95%+ completeness before showing me.
 ```
 
+### Fill Existing API Stub Files
+
+```
+I have a directory of stubbed-out API reference topics that need to be filled in.
+
+Directory: [path to stub files]
+Header file: [path to .h file or spec URL]
+Namespace: [namespace]
+
+Please:
+1. Scan the stub directory and list what files exist
+2. For each stub file, fill in:
+   - Detailed descriptions
+   - Parameter documentation
+   - Return value details
+   - Code examples
+   - Exceptions
+   - Remarks and cross-references
+3. Preserve existing metadata and structure
+4. Validate against API documentation standards
+
+Do not create new files - only enhance the existing stubs.
+```
+
 ### Tutorial
 
 ```

@@ -232,7 +232,110 @@ The PR is ready for review and can be merged once approved by the docs team.
 
 ---
 
-## Session 2: Quick API Reference
+## Session 2: Filling Existing API Stub Files
+
+**User:** I have stubbed-out API reference topics that need to be filled in for the SnapController class.
+
+---
+
+**Copilot:** I'll help you fill in those stub files. 
+
+What's the directory path where the stub files are located?
+
+---
+
+**User:** /docs/api/microsoft.ui.windowing/
+
+---
+
+**Copilot:** Great! And what's the header file or spec URL I should use as the source?
+
+---
+
+**User:** C:\code\WindowsAppSDK\src\Windowing\SnapController.h
+
+---
+
+**Copilot:** *[Scanning directory and analyzing header...]*
+
+I found 5 stub files in `/docs/api/microsoft.ui.windowing/`:
+
+**Existing stubs to fill:**
+
+1. **snapcontroller.md**
+   - Currently has: Class name, basic syntax
+   - Will add: Detailed description, inheritance, examples, remarks
+
+2. **snapcontroller.snaptoposition.md**
+   - Currently has: Method name, parameter names only
+   - Will add: Description, parameter details with types, return value, exceptions, code examples
+
+3. **snapcontroller.snaplayout.md**
+   - Currently has: Property name, type
+   - Will add: Description, possible values, usage examples, remarks
+
+4. **snapcontroller.snapstatechanged.md**
+   - Currently has: Event name
+   - Will add: Description, event args documentation, example handlers
+
+5. **snapconfiguration.md**
+   - Currently has: Class name
+   - Will add: Full class documentation, constructor, properties, examples
+
+I'll preserve all existing metadata and structure. Does this plan look good?
+
+---
+
+**User:** Yes, fill them in
+
+---
+
+**Copilot:** *[Filling stub files...]*
+
+✅ Updated: `snapcontroller.md` (added 2.1 KB)  
+✅ Updated: `snapcontroller.snaptoposition.md` (added 1.8 KB)  
+✅ Updated: `snapcontroller.snaplayout.md` (added 1.2 KB)  
+✅ Updated: `snapcontroller.snapstatechanged.md` (added 1.5 KB)  
+✅ Updated: `snapconfiguration.md` (added 2.3 KB)  
+
+### Changes Summary
+
+All files now include:
+- Complete descriptions
+- Parameter documentation with types
+- Return value details (for methods)
+- Code examples (C# and C++)
+- Exceptions documentation
+- Remarks and best practices
+- See-also references
+
+Preserved:
+- Existing YAML metadata
+- File structure
+- Any existing good content
+
+Validation results:
+- ✅ API completeness: 98% (Excellent)
+- ✅ All parameters documented
+- ✅ All return values documented
+- ✅ Code examples included
+
+Ready to commit? (yes/no)
+
+---
+
+**User:** Yes
+
+---
+
+**Copilot:** ✅ Committed updates to 5 files  
+✅ API documentation now complete
+
+The stub files have been filled with comprehensive documentation!
+
+---
+
+## Session 3: Quick API Reference (Creating New Files)
 
 **User:** Document this API: Microsoft.UI.Windowing.SnapController
 
@@ -240,7 +343,15 @@ The PR is ready for review and can be merged once approved by the docs team.
 
 **Copilot:** I'll create API reference documentation for `Microsoft.UI.Windowing.SnapController`.
 
-What's the header file path or spec URL?
+Do you have existing stub files for this API, or should I create new files?
+
+---
+
+**User:** Create new files
+
+---
+
+**Copilot:** Got it. What's the header file path or spec URL?
 
 ---
 
@@ -281,11 +392,11 @@ Create PR? (yes/no)
 
 **Copilot:** ✅ PR created: https://github.com/.../pull/5679
 
-Done! Single-file API reference ready for review.
+Done! New API reference files ready for review.
 
 ---
 
-## Session 3: Improving Quality
+## Session 4: Improving Quality
 
 **User:** The quality score is only 82%. What's wrong?
 

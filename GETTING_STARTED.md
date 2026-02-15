@@ -57,12 +57,17 @@ Copilot will ask you:
 4. **Release version** - e.g., "Windows App SDK 2.0"
 5. **Source** - Spec document URL OR header file path
 
+**For API documentation:**
+6. **Existing stub files?** - Do you have stubbed-out API topics?
+   - If yes: Provide directory path, Copilot will fill them in
+   - If no: Copilot will create new files
+
 ### Step 4: Review the Plan
 
-Copilot shows you what it will create:
-- List of files
+Copilot shows you what it will create or fill:
+- List of files (new or existing stubs)
+- What content will be added
 - Structure and sections
-- Estimated content
 
 Approve it or ask for changes.
 
