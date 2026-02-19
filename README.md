@@ -1,11 +1,31 @@
 # Windows Documentation Automation System
 
+## Two Automation Tools
+
+### 🆕 **Documentation Update Tool** (Quick Edits)
+Make quick edits to existing conceptual documentation. Just provide a URL and describe the change!
+
+👉 **[Quick Start →](workflows/DOC-UPDATE-README.md)** | **[Detailed Workflow →](workflows/doc-update-workflow.md)** | **[Prompts →](PROMPTS.md#-documentation-update-tool)**
+
+**Example:**
+```
+URL: https://learn.microsoft.com/windows/apps/design/input/pen-and-stylus-interactions
+Edit: Update second paragraph to say ink feature is now supported on all Windows 11 devices
+
+Use the Documentation Update Tool workflow.
+```
+
+### ⭐ **Documentation Generator** (New Content)
+Generate complete documentation sets from scratch. Perfect for new features!
+
+👉 **[Quick Reference →](QUICK_REFERENCE.md)** | **[Full Guide →](COPILOT_WORKFLOW.md)** | **[Copy Prompts →](PROMPTS.md)** | **[See Example →](EXAMPLE_SESSION.md)**
+
+---
+
 ## Two Ways to Use This System
 
 ### ⭐ **Recommended: Copilot Workflow** (Free with your Copilot license)
-Use GitHub Copilot directly in VS Code or CLI to generate documentation. No web app needed!
-
-👉 **[Quick Reference →](QUICK_REFERENCE.md)** | **[Full Guide →](COPILOT_WORKFLOW.md)** | **[Copy Prompts →](PROMPTS.md)** | **[See Example →](EXAMPLE_SESSION.md)**
+Use GitHub Copilot directly in VS Code or CLI. No web app needed, no MCP server registration required!
 
 ### 🌐 **Alternative: Web Demo**
 🚀 **[Try the Live Demo →](https://grantmestrength.github.io/windows-docs-automation/)**
@@ -65,12 +85,17 @@ This system helps feature teams and technical writers create comprehensive Windo
 windows-docs-automation/
 ├── .github/
 │   └── copilot-instructions.md         # Copilot agent definition
+├── workflows/                           # ⭐ Agent workflows
+│   ├── DOC-UPDATE-README.md            # Documentation Update Tool guide
+│   └── doc-update-workflow.md          # Detailed workflow instructions
 ├── schemas/                             # Machine-readable standards
 │   ├── editorial-standards-schema.json
 │   ├── api-doc-standards-schema.json
-│   └── intake-form-schema.json
+│   ├── intake-form-schema.json
+│   └── doc-update-schema.json          # Update tool validation
 ├── config/                              # Agent configuration
-│   └── agent-config.json
+│   ├── agent-config.json
+│   └── doc-update-config.json          # Update tool settings
 ├── templates/                           # Document templates
 │   └── pr-description.md
 ├── docs/                                # System documentation
@@ -79,7 +104,7 @@ windows-docs-automation/
 ├── webapp/                              # Web demo (optional)
 │   └── index.html
 ├── COPILOT_WORKFLOW.md                  # ⭐ Copilot usage guide
-├── PROMPTS.md                           # Ready-to-use prompts
+├── PROMPTS.md                           # ⭐ Ready-to-use prompts
 └── README.md
 ```
 
