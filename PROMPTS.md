@@ -247,6 +247,8 @@ Preserve existing good content, only update what's necessary.
 
 Quick edits to existing documentation on learn.microsoft.com.
 
+**Authentication Note:** This tool uses YOUR GitHub credentials. It works best if you have access to private `-pr` repos, but automatically falls back to public repos if needed.
+
 ### Basic Usage
 
 ```

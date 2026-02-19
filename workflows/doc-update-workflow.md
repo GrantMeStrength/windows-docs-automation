@@ -55,14 +55,20 @@ API reference content uses a different publishing pipeline and should not be edi
    - If multiple repos found, prefer names ending in `-pr` (e.g., `windows-dev-docs-pr`)
    - Private repos are the canonical source
 
-5. **Verify Access**
+5. **Verify Access & Fallback**
    - Use GitHub API to check if repository exists and is accessible
-   - If access denied, ask user if they want to use public repo instead
+   - **If private repo access denied:**
+     - Automatically try public repo version (remove `-pr` suffix)
+     - Example: `windows-dev-docs-pr` → `windows-dev-docs`
+     - Notify user: "⚠️ Using public repo (no access to private). PR will need additional review."
+   - **If public repo also inaccessible:**
+     - Ask user for repository name or check permissions
 
-**Output:** Repository owner and name (e.g., `MicrosoftDocs/windows-dev-docs-pr`)
+**Output:** Repository owner and name (e.g., `MicrosoftDocs/windows-dev-docs-pr` or `MicrosoftDocs/windows-dev-docs`)
 
 **Error Handling:**
-- If repo not found → Ask user for repository name
+- If private repo access denied → Fallback to public repo automatically
+- If no repo found → Ask user for repository name
 - If multiple repos possible → Show options and ask user to choose
 - **If API reference content detected → Stop and inform user to use different workflow**
 
@@ -319,8 +325,8 @@ Edit: Update the second paragraph to say that the ink feature is now supported o
 **Phase 1 - Repository Discovery:**
 - Parse URL → path: `/windows/apps/design/input/pen-and-stylus-interactions`
 - Check mapping guide → likely repo: `MicrosoftDocs/windows-dev-docs-pr`
-- Verify repo exists → ✅
-- Output: `MicrosoftDocs/windows-dev-docs-pr`
+- Try private repo → ✅ Access granted (or ⚠️ Access denied, fallback to public)
+- Output: `MicrosoftDocs/windows-dev-docs-pr` (or `MicrosoftDocs/windows-dev-docs`)
 
 **Phase 2 - File Location:**
 - Map path → `windows/apps/design/input/pen-and-stylus-interactions.md`
@@ -366,6 +372,12 @@ Your edit has been submitted for review by the docs team.
 
 **Issue:** Can't find repository
 - **Solution:** Ask user for repo name, or show likely matches from search
+
+**Issue:** Access denied to private repo
+- **Solution:** Automatically fallback to public repo (remove `-pr` suffix), notify user
+
+**Issue:** Access denied to both private and public repos
+- **Solution:** Check GitHub authentication (`gh auth status`), provide instructions to authenticate
 
 **Issue:** Can't find file in repository
 - **Solution:** Search repo for filename, show matches to user

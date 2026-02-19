@@ -1,18 +1,85 @@
 # How to Use the Documentation Update Tool
 
-## Prerequisites
+## Prerequisites & Authentication
 
-✅ **You need:**
-- GitHub Copilot subscription (CLI, VS Code, or any Copilot interface)
+### ✅ What You Need:
+- **GitHub Copilot subscription** (CLI, VS Code, or any Copilot interface)
+- **GitHub CLI (`gh`) authenticated** with access to Microsoft repos
 - Access to this repository: `https://github.com/GrantMeStrength/windows-docs-automation`
 
-❌ **You do NOT need:**
-- MCP Learn server registration
-- Special permissions or API keys
-- Web app access
-- Additional software installation
+### 🔐 How Authentication Works
 
-The tool uses your existing GitHub Copilot and standard GitHub access.
+**The tool uses YOUR credentials** - When you run this tool from your terminal or VS Code:
+
+1. **Copilot runs as YOU** - It uses your GitHub authentication
+2. **Your access = Tool's access** - If you can access `MicrosoftDocs/windows-dev-docs-pr`, the tool can too
+3. **No special permissions needed** - Just your normal GitHub/Microsoft access
+
+**Why This Matters:**
+- ✅ **Works seamlessly** if you have repo access
+- ✅ **Respects security** - Only edits repos you can already access
+- ✅ **No token sharing** - Uses your existing authentication
+- ❌ **Won't work** if you don't have access to the target repository
+
+### 🎫 How to Get Repository Access
+
+If you need access to Microsoft documentation repositories:
+
+#### For Microsoft Employees:
+
+1. **Join the MicrosoftDocs organization** on GitHub
+   - Visit: https://repos.opensource.microsoft.com/
+   - Sign in with your Microsoft account
+   - Link your GitHub account
+
+2. **Request access to specific repos**
+   - Go to: https://repos.opensource.microsoft.com/MicrosoftDocs/teams
+   - Find the team for your doc set (e.g., "windows-dev-docs")
+   - Request to join the team
+
+3. **Authenticate GitHub CLI**
+   ```bash
+   gh auth login
+   ```
+   - Choose "GitHub.com"
+   - Choose "HTTPS" protocol
+   - Authenticate with a browser
+   - Select scopes: `repo`, `read:org`, `workflow`
+
+4. **Verify access**
+   ```bash
+   gh repo list MicrosoftDocs | grep windows-dev-docs-pr
+   ```
+   You should see: `MicrosoftDocs/windows-dev-docs-pr  private`
+
+#### For External Contributors:
+
+- You'll work with **public repositories** (without `-pr` suffix)
+- Example: `MicrosoftDocs/windows-dev-docs` (public)
+- The tool will **automatically use public repos** if you don't have private access
+- Your PRs will go through standard external contributor review process
+
+### 🔄 Automatic Fallback Behavior
+
+The tool is smart about repository access:
+
+1. **First tries private repo** (e.g., `windows-dev-docs-pr`)
+2. **If access denied** → Automatically tries public repo (e.g., `windows-dev-docs`)
+3. **Notifies you** which repo it's using
+4. **Continues smoothly** with whichever repo is accessible
+
+**Example:**
+```
+🔍 Checking MicrosoftDocs/windows-dev-docs-pr... Access denied
+🔄 Falling back to MicrosoftDocs/windows-dev-docs... ✅ Access granted
+📝 Using public repository. Your PR will need standard review process.
+```
+
+### ❌ What You DON'T Need:
+- MCP Learn server registration
+- Azure OpenAI API keys
+- Special app permissions
+- Additional software beyond GitHub CLI
 
 ---
 

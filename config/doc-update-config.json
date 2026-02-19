@@ -52,6 +52,11 @@
           "default": true,
           "description": "Prefer repositories ending in -pr (private repos)"
         },
+        "fallback_to_public": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically fallback to public repo if private repo access denied"
+        },
         "default_base_branch": {
           "type": "string",
           "default": "main",
