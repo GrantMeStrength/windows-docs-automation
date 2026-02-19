@@ -243,6 +243,60 @@ Please:
 Preserve existing good content, only update what's necessary.
 ```
 
+## 📝 Documentation Update Tool
+
+Quick edits to existing documentation on learn.microsoft.com.
+
+### Basic Usage
+
+```
+I need to make a quick edit to existing Windows documentation.
+
+URL: [learn.microsoft.com URL]
+Edit: [natural language description of change]
+
+Please use the Documentation Update Tool to:
+1. Find the correct docs repository (prefer -pr private repos)
+2. Locate the markdown file
+3. Make the edit
+4. Create a PR
+5. Email jkendirs@microsoft.com for review
+```
+
+### Example
+
+```
+Update documentation at: https://learn.microsoft.com/windows/apps/design/input/pen-and-stylus-interactions
+
+Edit: Update the second paragraph to say that the ink feature is now supported on all Windows 11 devices.
+
+Use the Documentation Update Tool workflow.
+```
+
+### Another Example
+
+```
+URL: https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads
+Change: Add a note that version 1.5 is now in preview
+
+Follow the doc update workflow to make this change and notify the docs team.
+```
+
+### With Additional Context
+
+```
+I need to update this page: [URL]
+
+Change: [description]
+
+Notes:
+- This is urgent for the [version] release
+- Make sure to preserve the existing warning callout
+- Update the "Last updated" date in metadata
+
+Use Documentation Update Tool.
+```
+
 ## 💬 Conversational Starters
 
 ### Simple Start

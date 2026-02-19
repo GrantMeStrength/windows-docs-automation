@@ -1,0 +1,506 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Documentation Update Tool Validation Schema",
+  "description": "Validation schema for inputs and outputs of the Windows Documentation Update Tool",
+  "version": "1.0.0",
+  "definitions": {
+    "input_schema": {
+      "type": "object",
+      "title": "Documentation Update Request",
+      "description": "Input required from user to perform a documentation update",
+      "required": ["url", "edit_description"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://learn\\.microsoft\\.com/",
+          "description": "Full URL to the learn.microsoft.com page to edit",
+          "examples": [
+            "https://learn.microsoft.com/windows/apps/design/input/pen-and-stylus-interactions",
+            "https://learn.microsoft.com/windows/uwp/get-started/create-a-hello-world-app-xaml-universal"
+          ]
+        },
+        "edit_description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "Natural language description of the edit to make",
+          "examples": [
+            "Update the second paragraph to say that the ink feature is now supported on all Windows 11 devices",
+            "Add a note that version 1.5 is now in preview",
+            "Remove the deprecated warning from the installation section"
+          ]
+        },
+        "requester_info": {
+          "type": "object",
+          "description": "Optional information about who is requesting the change",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Full name of requester"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Email address"
+            },
+            "team": {
+              "type": "string",
+              "description": "Team name (e.g., 'Windows App SDK team')"
+            },
+            "github_username": {
+              "type": "string",
+              "description": "GitHub username for attribution"
+            }
+          }
+        },
+        "urgency": {
+          "type": "string",
+          "enum": ["low", "normal", "high", "urgent"],
+          "default": "normal",
+          "description": "Priority level for the update"
+        },
+        "additional_context": {
+          "type": "string",
+          "description": "Any additional context or notes for reviewers"
+        }
+      }
+    },
+    "validation_result": {
+      "type": "object",
+      "title": "Content Validation Result",
+      "description": "Result of validating the target content",
+      "required": ["is_valid", "content_type"],
+      "properties": {
+        "is_valid": {
+          "type": "boolean",
+          "description": "Whether content is valid for editing with this tool"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": ["conceptual", "reference", "api", "unknown"],
+          "description": "Type of content detected"
+        },
+        "validation_checks": {
+          "type": "object",
+          "properties": {
+            "is_conceptual": {
+              "type": "boolean",
+              "description": "Content is conceptual (tutorial, how-to, overview)"
+            },
+            "is_reference": {
+              "type": "boolean",
+              "description": "Content is API reference (blocked)"
+            },
+            "has_yaml_frontmatter": {
+              "type": "boolean",
+              "description": "File has YAML metadata"
+            },
+            "is_markdown": {
+              "type": "boolean",
+              "description": "File is markdown format"
+            }
+          }
+        },
+        "blocking_issues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of issues preventing edit"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Non-blocking warnings"
+        },
+        "metadata_detected": {
+          "type": "object",
+          "description": "Metadata fields found in YAML frontmatter",
+          "properties": {
+            "ms.topic": {
+              "type": "string",
+              "description": "Content type from metadata"
+            },
+            "title": {
+              "type": "string",
+              "description": "Page title"
+            },
+            "has_reference_indicators": {
+              "type": "boolean",
+              "description": "Whether reference content indicators were found"
+            }
+          }
+        }
+      }
+    },
+    "edit_result": {
+      "type": "object",
+      "title": "Edit Operation Result",
+      "description": "Result of making the edit",
+      "required": ["success", "changes_made"],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Whether the edit was successfully made"
+        },
+        "changes_made": {
+          "type": "object",
+          "properties": {
+            "lines_added": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of lines added"
+            },
+            "lines_removed": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of lines removed"
+            },
+            "lines_modified": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of lines modified"
+            },
+            "total_changes": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Total number of changed lines"
+            },
+            "sections_modified": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "List of sections that were modified"
+            }
+          }
+        },
+        "diff": {
+          "type": "string",
+          "description": "Git-style diff of the changes"
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "markdown_valid": {
+              "type": "boolean",
+              "description": "Markdown syntax is valid after edit"
+            },
+            "metadata_preserved": {
+              "type": "boolean",
+              "description": "YAML frontmatter was not changed (unless requested)"
+            },
+            "links_intact": {
+              "type": "boolean",
+              "description": "No links were broken"
+            },
+            "within_size_limits": {
+              "type": "boolean",
+              "description": "Changes are within configured limits"
+            }
+          }
+        },
+        "user_approved": {
+          "type": "boolean",
+          "description": "Whether user approved the changes"
+        },
+        "error_message": {
+          "type": "string",
+          "description": "Error message if success is false"
+        }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "title": "Documentation Update Result",
+      "description": "Output after completing the documentation update workflow",
+      "required": ["status", "url"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["success", "failed", "blocked", "cancelled"],
+          "description": "Overall status of the update"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Original URL that was edited"
+        },
+        "repository": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string",
+              "description": "Repository owner (e.g., 'MicrosoftDocs')"
+            },
+            "name": {
+              "type": "string",
+              "description": "Repository name"
+            },
+            "is_private": {
+              "type": "boolean",
+              "description": "Whether this is a private (-pr) repository"
+            },
+            "file_path": {
+              "type": "string",
+              "description": "Path to the edited file in the repository"
+            }
+          }
+        },
+        "git_operations": {
+          "type": "object",
+          "properties": {
+            "branch_name": {
+              "type": "string",
+              "description": "Name of the branch created"
+            },
+            "commit_sha": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$",
+              "description": "SHA of the commit"
+            },
+            "commit_message": {
+              "type": "string",
+              "description": "Commit message"
+            },
+            "pushed": {
+              "type": "boolean",
+              "description": "Whether branch was pushed to remote"
+            }
+          }
+        },
+        "pull_request": {
+          "type": "object",
+          "properties": {
+            "created": {
+              "type": "boolean",
+              "description": "Whether PR was created"
+            },
+            "number": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "PR number"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the pull request"
+            },
+            "title": {
+              "type": "string",
+              "description": "PR title"
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Labels applied to PR"
+            }
+          }
+        },
+        "notification": {
+          "type": "object",
+          "properties": {
+            "sent": {
+              "type": "boolean",
+              "description": "Whether notification was sent"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["email", "github_comment", "both", "none"],
+              "description": "How notification was sent"
+            },
+            "recipient": {
+              "type": "string",
+              "description": "Who was notified"
+            }
+          }
+        },
+        "edit_summary": {
+          "type": "object",
+          "properties": {
+            "original_request": {
+              "type": "string",
+              "description": "User's original edit description"
+            },
+            "changes_made": {
+              "type": "string",
+              "description": "Summary of actual changes"
+            },
+            "lines_changed": {
+              "type": "integer",
+              "description": "Total lines changed"
+            }
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the update was completed"
+        },
+        "error_details": {
+          "type": "object",
+          "description": "Present only if status is 'failed' or 'blocked'",
+          "properties": {
+            "error_type": {
+              "type": "string",
+              "description": "Type of error encountered"
+            },
+            "error_message": {
+              "type": "string",
+              "description": "Detailed error message"
+            },
+            "recovery_suggestions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Suggestions for how to proceed"
+            }
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "input": {
+      "$ref": "#/definitions/input_schema"
+    },
+    "validation": {
+      "$ref": "#/definitions/validation_result"
+    },
+    "edit": {
+      "$ref": "#/definitions/edit_result"
+    },
+    "output": {
+      "$ref": "#/definitions/output_schema"
+    }
+  },
+  "validation_rules": {
+    "description": "Rules for validating inputs and outputs",
+    "rules": [
+      {
+        "rule": "url_must_be_learn_microsoft",
+        "description": "URL must be from learn.microsoft.com domain",
+        "check": "url starts with https://learn.microsoft.com/"
+      },
+      {
+        "rule": "edit_description_not_empty",
+        "description": "Edit description must be at least 10 characters",
+        "check": "edit_description length >= 10"
+      },
+      {
+        "rule": "no_reference_content",
+        "description": "Content must not be API reference documentation",
+        "check": "validation.content_type != 'reference' AND validation.content_type != 'api'"
+      },
+      {
+        "rule": "markdown_must_be_valid",
+        "description": "Edited markdown must have valid syntax",
+        "check": "edit.validation.markdown_valid == true"
+      },
+      {
+        "rule": "metadata_must_be_preserved",
+        "description": "YAML frontmatter should not change unless explicitly requested",
+        "check": "edit.validation.metadata_preserved == true"
+      },
+      {
+        "rule": "changes_within_limits",
+        "description": "Number of changes must be within configured limits",
+        "check": "edit.validation.within_size_limits == true"
+      },
+      {
+        "rule": "user_must_approve",
+        "description": "User must approve changes before committing",
+        "check": "edit.user_approved == true"
+      },
+      {
+        "rule": "pr_required_for_success",
+        "description": "Success status requires PR to be created",
+        "check": "IF output.status == 'success' THEN output.pull_request.created == true"
+      }
+    ]
+  },
+  "error_codes": {
+    "description": "Standard error codes for the tool",
+    "codes": {
+      "INVALID_URL": "URL is not a valid learn.microsoft.com URL",
+      "REPO_NOT_FOUND": "Could not determine which repository contains this content",
+      "FILE_NOT_FOUND": "Could not locate the markdown file in the repository",
+      "ACCESS_DENIED": "No access to the repository (may need authentication)",
+      "REFERENCE_CONTENT": "Content is API reference documentation (not supported by this tool)",
+      "EDIT_UNCLEAR": "Could not understand the edit request",
+      "SECTION_NOT_FOUND": "Could not locate the section to edit",
+      "VALIDATION_FAILED": "Edited content failed validation checks",
+      "USER_REJECTED": "User rejected the proposed changes",
+      "GIT_PUSH_FAILED": "Failed to push branch to remote",
+      "PR_CREATION_FAILED": "Failed to create pull request",
+      "NOTIFICATION_FAILED": "Failed to send notification"
+    }
+  },
+  "examples": {
+    "valid_input": {
+      "url": "https://learn.microsoft.com/windows/apps/design/input/pen-and-stylus-interactions",
+      "edit_description": "Update the second paragraph to say that the ink feature is now supported on all Windows 11 devices",
+      "requester_info": {
+        "name": "John Smith",
+        "email": "jsmith@microsoft.com",
+        "team": "Windows Input team",
+        "github_username": "jsmith-ms"
+      },
+      "urgency": "normal"
+    },
+    "successful_output": {
+      "status": "success",
+      "url": "https://learn.microsoft.com/windows/apps/design/input/pen-and-stylus-interactions",
+      "repository": {
+        "owner": "MicrosoftDocs",
+        "name": "windows-dev-docs-pr",
+        "is_private": true,
+        "file_path": "windows/apps/design/input/pen-and-stylus-interactions.md"
+      },
+      "git_operations": {
+        "branch_name": "doc-update/20260219-ink-feature-support",
+        "commit_sha": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+        "commit_message": "[Doc Update] Update ink feature Windows 11 support",
+        "pushed": true
+      },
+      "pull_request": {
+        "created": true,
+        "number": 1234,
+        "url": "https://github.com/MicrosoftDocs/windows-dev-docs-pr/pull/1234",
+        "title": "[Minor Edit] Update ink feature Windows 11 support",
+        "labels": ["documentation", "doc-update-tool", "quick-edit"]
+      },
+      "notification": {
+        "sent": true,
+        "method": "github_comment",
+        "recipient": "@jkendirs"
+      },
+      "edit_summary": {
+        "original_request": "Update the second paragraph to say that the ink feature is now supported on all Windows 11 devices",
+        "changes_made": "Updated second paragraph to reflect Windows 11 ink feature support",
+        "lines_changed": 2
+      },
+      "timestamp": "2026-02-19T20:45:00Z"
+    },
+    "blocked_output": {
+      "status": "blocked",
+      "url": "https://learn.microsoft.com/windows/win32/api/windows.ui.input/nf-windows-ui-input-inkmanager-loadasync",
+      "error_details": {
+        "error_type": "REFERENCE_CONTENT",
+        "error_message": "This appears to be API reference documentation, which uses a different publishing pipeline. This tool only supports conceptual documentation (tutorials, how-to guides, overviews).",
+        "recovery_suggestions": [
+          "Use the API Documentation Generator workflow instead",
+          "Contact the docs team for assistance with API reference updates",
+          "Check if there's a conceptual page that needs updating instead"
+        ]
+      }
+    }
+  }
+}
